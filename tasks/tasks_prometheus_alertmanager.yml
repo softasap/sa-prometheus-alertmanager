@@ -12,8 +12,14 @@
     tags:
       - prometheus
 
-  - name: Prometheus alert manager | Ensure folder
+  - name: Prometheus alert manager | Ensure service folder
     file: path="{{prometheus_alertmanager_base_dir}}" state="directory" owner="{{prometheus_alertmanager_user}}" group="{{prometheus_alertmanager_group}}"
+    become: yes
+    tags:
+      - prometheus
+
+  - name: Prometheus alert manager | Ensure config folder
+    file: path="{{prometheus_alertmanager_config_dir}}" state="directory" owner="root" group="{{prometheus_alertmanager_group}}"
     become: yes
     tags:
       - prometheus

@@ -3,7 +3,10 @@ sa-prometheus-alertmanager
 
 [![Build Status](https://travis-ci.org/softasap/sa-prometheus-alertmanager.svg?branch=master)](https://travis-ci.org/softasap/sa-prometheus-alertmanager)
 
-Check also compatible UI:  https://github.com/cloudflare/unsee
+Compatible Web-UI:  https://github.com/cloudflare/unsee
+
+Graphing your alerting tree:  https://prometheus.io/webtools/alerting/routing-tree-editor/
+
 
 Example of usage:
 

@@ -11,3 +11,7 @@ prometheus_alertmanager_group:  prometheus
 
 prometheus_alertmanager_base_dir: /opt/prometheus_alertmanager
 prometheus_alertmanager_version: "0.14.0"
+
+prometheus_alertmanager_config: {
+  options: []
+}

@@ -1,7 +1,7 @@
 ---
 
   - name: Prometheus alert manager | Ensure folder
-    file: path="{{prometheus_alertmanager_base_dir}}" state="folder" owner="{{prometheus_alertmanager_user}}" group="{{prometheus_alertmanager_group}}"
+    file: path="{{prometheus_alertmanager_base_dir}}" state="directory" owner="{{prometheus_alertmanager_user}}" group="{{prometheus_alertmanager_group}}"
     become: yes
     tags:
       - prometheus

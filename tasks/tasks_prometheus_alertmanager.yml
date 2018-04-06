@@ -1,5 +1,17 @@
 ---
 
+  - name: Prometheus alert manager | create group
+    group: name={{ prometheus_alertmanager_group }}  state=present
+    become: yes
+    tags:
+      - prometheus
+
+  - name: Prometheus alert manager | create user
+    user: name="{{ prometheus_alertmanager_user }}" group="{{ prometheus_alertmanager_group }}" createhome=no shell=/sbin/nologin comment="Prometheus User"  state=present
+    become: yes
+    tags:
+      - prometheus
+
   - name: Prometheus alert manager | Ensure folder
     file: path="{{prometheus_alertmanager_base_dir}}" state="directory" owner="{{prometheus_alertmanager_user}}" group="{{prometheus_alertmanager_group}}"
     become: yes

@@ -1,0 +1,4 @@
+---
+# tasks file for sa-prometheus-alertmanager
+
+  - include: tasks_prometheus_alertmanager.yml

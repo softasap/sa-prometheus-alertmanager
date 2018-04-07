@@ -1,0 +1,40 @@
+# CI/CD managed
+# Do NOT modify this file by hand!
+
+[Unit]
+Description=Prometheus Alertmanager
+After=network.target
+Requires=network.target
+
+[Service]
+EnvironmentFile={{prometheus_alertmanager_config_dir}}/prometheus_alertmanager_configuration
+
+ExecStart={{prometheus_alertmanager_dir}}/alertmanager -config.file={{prometheus_alertmanager_config_dir}}/config.yml $OPTIONS
+User={{prometheus_alertmanager_user|default('prometheus')}}
+Group={{prometheus_alertmanager_group|default('prometheus')}}
+
+{% if prometheus_alertmanager_config.startup|default({}) %}
+
+{% for key in prometheus_alertmanager_config.startup.env|default({}) %}
+Environment="{{key}}={{prometheus_alertmanager_config.startup.env[key]}}"
+{% endfor %}
+{% if prometheus_alertmanager_config.startup.execstop|default(False) %}
+ExecStop={{prometheus_alertmanager_config.startup.execstop}}
+{% endif %}
+
+{% if prometheus_alertmanager_config.startup.pidfile|default(False) %}
+PIDFile={{prometheus_alertmanager_config.startup.pidfile}}
+{% endif %}
+
+{% for line in prometheus_alertmanager_config.startup.extralines|default([]) %}
+{{ line|default('') }}
+{% endfor %}
+
+{% endif %}
+
+Restart=always
+RestartSec=5
+TimeoutSec=5
+
+[Install]
+WantedBy=multi-user.target

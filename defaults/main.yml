@@ -1,0 +1,19 @@
+---
+# defaults file for sa-prometheus-alertmanager
+
+role_dir: "{{role_path}}"
+
+prometheus_user:   prometheus
+prometheus_group:  prometheus
+
+prometheus_alertmanager_user:   prometheus
+prometheus_alertmanager_group:  prometheus
+
+prometheus_alertmanager_base_dir: /opt/prometheus_alertmanager
+prometheus_alertmanager_dir: "{{prometheus_alertmanager_base_dir}}/alertmanager"
+prometheus_alertmanager_config_dir: /etc/prometheus_alertmanager
+prometheus_alertmanager_version: "0.14.0"
+
+prometheus_alertmanager_config: {
+  options: {}
+}

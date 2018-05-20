@@ -7,6 +7,13 @@ Compatible Web-UI:  https://github.com/cloudflare/unsee
 
 Graphing your alerting tree:  https://prometheus.io/webtools/alerting/routing-tree-editor/
 
+Ideas for alerts
+
+Gitlab project:
+	https://gitlab.com/gitlab-com/runbooks/tree/master/alerts
+
+rubustperception wiki:
+	http://tips.robustperception.io/
 
 Example of usage:
 

@@ -10,10 +10,13 @@ prometheus_alertmanager_user:   prometheus
 prometheus_alertmanager_group:  prometheus
 
 prometheus_alertmanager_base_dir: /opt/prometheus_alertmanager
-prometheus_alertmanager_dir: "{{prometheus_alertmanager_base_dir}}/alertmanager"
+prometheus_alertmanager_dir: "{{ prometheus_alertmanager_base_dir }}/alertmanager"
 prometheus_alertmanager_config_dir: /etc/prometheus_alertmanager
-prometheus_alertmanager_version: "0.14.0"
+prometheus_alertmanager_version: "0.15.3"
 
 prometheus_alertmanager_config: {
   options: {}
 }
+
+prometheus_alertmanager_dist_url: "https://github.com/prometheus/alertmanager/releases/download/v{{ prometheus_alertmanager_version }}/alertmanager-{{ prometheus_alertmanager_version }}.linux-amd64.tar.gz"
+prometheus_alertmanager_dist_location: "{{ prometheus_alertmanager_base_dir }}/alertmanager-{{ prometheus_alertmanager_version }}.linux-amd64.tar.gz"

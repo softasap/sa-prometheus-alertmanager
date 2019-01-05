@@ -7,27 +7,41 @@
       - prometheus
 
   - name: Prometheus alert manager | create user
-    user: name="{{ prometheus_alertmanager_user }}" group="{{ prometheus_alertmanager_group }}" createhome=no shell=/sbin/nologin comment="Prometheus User"  state=present
+    user:
+      name: "{{ prometheus_alertmanager_user }}"
+      group: "{{ prometheus_alertmanager_group }}"
+      createhome: no
+      shell: /sbin/nologin
+      comment: "Prometheus User"
+      state: present
     become: yes
     tags:
       - prometheus
 
   - name: Prometheus alert manager | Ensure service folder
-    file: path="{{prometheus_alertmanager_base_dir}}" state="directory" owner="{{prometheus_alertmanager_user}}" group="{{prometheus_alertmanager_group}}"
+    file:
+      path: "{{ prometheus_alertmanager_base_dir }}"
+      state: "directory"
+      owner: "{{ prometheus_alertmanager_user }}"
+      group: "{{ prometheus_alertmanager_group }}"
     become: yes
     tags:
       - prometheus
 
   - name: Prometheus alert manager | Ensure config folder
-    file: path="{{prometheus_alertmanager_config_dir}}" state="directory" owner="root" group="{{prometheus_alertmanager_group}}"
+    file:
+      path: "{{ prometheus_alertmanager_config_dir }}"
+      state: "directory"
+      owner: "root"
+      group: "{{ prometheus_alertmanager_group }}"
     become: yes
     tags:
       - prometheus
 
   - name: Prometheus alert manager | Download distribution
     get_url:
-      url: "https://github.com/prometheus/alertmanager/releases/download/v{{prometheus_alertmanager_version}}/alertmanager-{{prometheus_alertmanager_version}}.linux-amd64.tar.gz"
-      dest: "{{prometheus_alertmanager_base_dir}}/alertmanager-{{prometheus_alertmanager_version}}.linux-amd64.tar.gz"
+      url: "{{ prometheus_alertmanager_dist_url }}"
+      dest: "{{ prometheus_alertmanager_dist_location }}"
     become: yes
     become_user: "{{ prometheus_alertmanager_user }}"
     tags:
@@ -35,8 +49,8 @@
 
   - name: Prometheus alert manager | unpack distribution
     unarchive:
-      src: "{{prometheus_alertmanager_base_dir}}/alertmanager-{{prometheus_alertmanager_version}}.linux-amd64.tar.gz"
-      dest: "{{prometheus_alertmanager_base_dir}}"
+      src: "{{ prometheus_alertmanager_dist_location }}"
+      dest: "{{ prometheus_alertmanager_base_dir }}"
       remote_src: yes
     become: yes
     become_user: "{{ prometheus_alertmanager_user }}"
@@ -44,24 +58,32 @@
       - prometheus
 
   - name: Prometheus alert manager | link distrution
-    file: src="{{prometheus_alertmanager_base_dir}}/alertmanager-{{prometheus_alertmanager_version}}.linux-amd64/" dest="{{prometheus_alertmanager_base_dir}}/alertmanager" owner="root"  group="{{ prometheus_alertmanager_group }}" state=link
+    file:
+      src: "{{ prometheus_alertmanager_base_dir }}/alertmanager-{{ prometheus_alertmanager_version }}.linux-amd64/"
+      dest: "{{ prometheus_alertmanager_base_dir }}/alertmanager"
+      owner: "root"
+      group: "{{ prometheus_alertmanager_group }}"
+      state: link
     become: yes
     tags:
       - prometheus
 
   - name: Prometheus alert manager | Configuring settings file for alert manager
     template:
-      src: "{{role_dir}}/templates/alertmanager_configuration.j2"
-      dest: "{{prometheus_alertmanager_config_dir}}/prometheus_alertmanager_configuration"
+      src: "{{ role_dir }}/templates/alertmanager_configuration.j2"
+      dest: "{{ prometheus_alertmanager_config_dir }}/prometheus_alertmanager_configuration"
       owner: "root"
-      group: "{{prometheus_alertmanager_group | default(prometheus_group)}}"
+      group: "{{ prometheus_alertmanager_group | default(prometheus_group) }}"
       mode: "u=rw,g=r,o="
     become: yes
     tags:
       - prometheus
 
   - name: Prometheus alert manager | Configuring systemd file for alert manager
-    template: src={{role_dir}}/templates/systemd_alertmanager.service.j2 dest=/etc/systemd/system/prometheus-alertmanager.service mode=0644
+    template:
+      src: "{{ role_dir }}/templates/systemd_alertmanager.service.j2"
+      dest: /etc/systemd/system/prometheus-alertmanager.service
+      mode: 0644
     when: docker_test is not defined
     become: yes
     tags:

@@ -24,7 +24,7 @@ Simple
      - {
          role: "sa-prometheus-alertmanager"
        }
-
+```
 
 Advanced
 
@@ -39,6 +39,46 @@ roles:
          prometheus_alertmanager_base_dir: /opt/prometheus_alertmanager,
          prometheus_alertmanager_version: "0.14.0"
        }
+```
+
+
+Notes on installed state
+------------------------
+
+Systemd startup file will look like this:
+
+```
+# CI/CD managed
+# Do NOT modify this file by hand!
+
+[Unit]
+Description=Prometheus Alertmanager
+After=network.target
+Requires=network.target
+
+[Service]
+EnvironmentFile=/etc/prometheus_alertmanager/prometheus_alertmanager_configuration
+
+ExecStart=/opt/prometheus_alertmanager/alertmanager/alertmanager --config.file=/etc/prometheus_alertmanager/config.yml --storage.path=/opt/prometheus_alertmanager/data $OPTIONS
+User=prometheus
+Group=prometheus
+
+
+Restart=always
+RestartSec=5
+TimeoutSec=5
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```
+ls -la /opt/prometheus_alertmanager/data
+total 8
+drwxr-x--- 2 prometheus prometheus 4096 Jul 18 13:35 .
+drwxr-x--- 4 prometheus prometheus 4096 Apr  7 22:03 ..
+-rw-r----- 1 prometheus prometheus    0 Jul 18 13:35 nflog
+-rw-r----- 1 prometheus prometheus    0 Jul 18 13:35 silences
 ```
 
 

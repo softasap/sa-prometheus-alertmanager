@@ -9,7 +9,7 @@ Requires=network.target
 [Service]
 EnvironmentFile={{prometheus_alertmanager_config_dir}}/prometheus_alertmanager_configuration
 
-ExecStart={{prometheus_alertmanager_dir}}/alertmanager -config.file={{prometheus_alertmanager_config_dir}}/config.yml $OPTIONS
+ExecStart={{prometheus_alertmanager_dir}}/alertmanager --storage.path=/opt/prometheus_alertmanager/data --config.file={{prometheus_alertmanager_config_dir}}/config.yml $OPTIONS
 User={{prometheus_alertmanager_user|default('prometheus')}}
 Group={{prometheus_alertmanager_group|default('prometheus')}}
 

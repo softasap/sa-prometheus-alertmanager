@@ -1,0 +1,14 @@
+#!/bin/bash
+
+PROMETHEUS_ALERT_MANAGER_VERSION="{{ prometheus_alertmanager_version }}"
+cd {{ prometheus_alertmanager_base_dir }}
+wget  https://github.com/prometheus/alertmanager/releases/download/v${PROMETHEUS_ALERT_MANAGER_VERSION}/alertmanager-${PROMETHEUS_ALERT_MANAGER_VERSION}.linux-amd64.tar.gz
+tar -xf alertmanager-${PROMETHEUS_ALERT_MANAGER_VERSION}.linux-amd64.tar.gz
+sudo chown -R {{ prometheus_alertmanager_user }}:root {{ prometheus_alertmanager_base_dir }}/alertmanager-${PROMETHEUS_ALERT_MANAGER_VERSION}.linux-amd64
+sudo service prometheus-alertmanager stop
+rm -rf {{ prometheus_alertmanager_base_dir }}/old
+mv {{ prometheus_alertmanager_base_dir }}/alertmanager {{ prometheus_alertmanager_base_dir }}/old
+#             Source                                  Link
+sudo ln -f -s {{ prometheus_alertmanager_base_dir }}/alertmanager-${PROMETHEUS_ALERT_MANAGER_VERSION}.linux-amd64 {{ prometheus_alertmanager_base_dir }}/alertmanager
+cp {{ prometheus_alertmanager_base_dir }}/old/alertmanager.yml {{ prometheus_alertmanager_base_dir }}/alertmanager
+sudo service prometheus-alertmanager start

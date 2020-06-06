@@ -80,14 +80,28 @@
 
   - name: Prometheus alert manager | Configuring settings file for alert manager
     template:
-      src: "{{ role_dir }}/templates/alertmanager_configuration.j2"
+      src: "{{ role_dir }}/templates/alertmanager_configuration-py2.j2"
       dest: "{{ prometheus_alertmanager_config_dir }}/prometheus_alertmanager_configuration"
       owner: "root"
       group: "{{ prometheus_alertmanager_group | default(prometheus_group) }}"
       mode: "u=rw,g=r,o="
+    when: ansible_python_version is version_compare('3','<')
     become: yes
     tags:
       - prometheus
+
+  - name: Prometheus alert manager | Configuring settings file for alert manager
+    template:
+      src: "{{ role_dir }}/templates/alertmanager_configuration-py3.j2"
+      dest: "{{ prometheus_alertmanager_config_dir }}/prometheus_alertmanager_configuration"
+      owner: "root"
+      group: "{{ prometheus_alertmanager_group | default(prometheus_group) }}"
+      mode: "u=rw,g=r,o="
+    when: ansible_python_version is version_compare('3','>=')
+    become: yes
+    tags:
+      - prometheus
+
 
   - name: Prometheus alert manager | Configuring alert manager config.yml
     copy:

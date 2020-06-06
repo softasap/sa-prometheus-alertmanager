@@ -1,0 +1,1 @@
+OPTIONS="{% for flag, flag_value in prometheus_alertmanager_config.options.items() %}-{{ flag }}={{ flag_value }} {% endfor %}"

@@ -12,7 +12,7 @@ prometheus_alertmanager_group:  prometheus
 prometheus_alertmanager_base_dir: /opt/prometheus_alertmanager
 prometheus_alertmanager_dir: "{{ prometheus_alertmanager_base_dir }}/alertmanager"
 prometheus_alertmanager_config_dir: /etc/prometheus_alertmanager
-prometheus_alertmanager_version: "0.20.0"
+prometheus_alertmanager_version: "0.21.0"
 
 prometheus_alertmanager_config: {
   options: {}

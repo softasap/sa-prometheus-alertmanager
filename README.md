@@ -191,7 +191,7 @@ receivers:
     icon_url: https://avatars3.githubusercontent.com/u/4029521
     title: '{{ template "custom_title" . }}'
     text: '{{ template "custom_slack_message" . }}'
-# your company ops slack    
+# your company ops slack
   - channel: "system_alerts"
     send_resolved: true
     api_url: https://hooks.slack.com/services/.....

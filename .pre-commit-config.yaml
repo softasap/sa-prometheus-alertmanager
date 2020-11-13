@@ -27,6 +27,7 @@ repos:
         # do not add file filters here as ansible-lint does not give reliable
         # results when called with individual files.
         # https://github.com/ansible/ansible-lint/issues/611
+        # https://ansible-lint.readthedocs.io/en/latest/default_rules.html
         verbose: true
         # plugins is the standard collection dir for modules
         entry: env ANSIBLE_LIBRARY=plugins ansible-lint --force-color -p -v -c ./.ansible-lint

@@ -1,7 +1,9 @@
 ---
 
   - name: Prometheus alert manager | create group
-    group: name={{ prometheus_alertmanager_group }}  state=present
+    group:
+      name: "{{ prometheus_alertmanager_group }}"
+      state: present
     become: yes
     tags:
       - prometheus
@@ -24,6 +26,7 @@
       state: "directory"
       owner: "{{ prometheus_alertmanager_user }}"
       group: "{{ prometheus_alertmanager_group }}"
+      mode: "u=rwx,g=rwx,o="
     become: yes
     tags:
       - prometheus
@@ -34,6 +37,7 @@
       state: "directory"
       owner: "root"
       group: "{{ prometheus_alertmanager_group }}"
+      mode: "u=rwx,g=rwx,o="
     become: yes
     tags:
       - prometheus
@@ -44,6 +48,7 @@
       state: "directory"
       owner: "root"
       group: "{{ prometheus_alertmanager_group }}"
+      mode: "u=rw,g=rw,o="
     become: yes
     tags:
       - prometheus
@@ -62,6 +67,7 @@
       src: "{{ prometheus_alertmanager_dist_location }}"
       dest: "{{ prometheus_alertmanager_base_dir }}"
       remote_src: yes
+      mode: "u=rw,g=rw,o="
     become: yes
     become_user: "{{ prometheus_alertmanager_user }}"
     tags:
@@ -154,4 +160,3 @@
     become: yes
     tags:
       - prometheus
-
